@@ -26,13 +26,13 @@
     private async Task SendChatMessage(){
         if (hubConnection is not null)
         {
-            await hubConnection.SendAsync("SendMessage", UserInput);
+            await hubConnection.SendAsync("SendTextMessage", UserInput);
         }
     }
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("/chathub"))
+            .WithUrl(Navigation.ToAbsoluteUri("/chat"))
             .Build();
 
         hubConnection.On<string>("ReceiveMessage", (message) =>
