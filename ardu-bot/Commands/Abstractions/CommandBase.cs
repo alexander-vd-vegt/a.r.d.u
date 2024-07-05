@@ -3,13 +3,16 @@
 namespace Ardu.Bot;
 
 public interface ICommand{
-    Task ExecuteAsync(CommandAgruments arguments, CancellationToken cancellationToken);
+    Task ExecuteAsync(CommandAgruments arguments);
 }
 
 public abstract class CommandBase : ICommand
 {
     protected IHubContext _context;
-    public abstract Task ExecuteAsync(CommandAgruments arguments, CancellationToken cancellationToken);
+    public void Intialize(IHubContext context){
+        _context = context;
+    }
+    public abstract Task ExecuteAsync(CommandAgruments arguments);
 }
 
 public class ArgumentDefintion{

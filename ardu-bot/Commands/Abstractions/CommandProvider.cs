@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Microsoft.AspNet.SignalR;
 
 namespace Ardu.Bot;
 
@@ -25,12 +26,18 @@ public class CommandProvider : ICommandProvider
         .Select(c => c.GetCustomAttribute<CommandAttribute>()!.Name);
     }
 
-    public ICommand GetCommandInstance(string commandName){
+    public IEnumerable<CommandAttribute> GetCommandsInfo(){
+        return _commands.Where(c=> c.GetCustomAttribute<CommandAttribute>() != null)
+        .Select(c => c.GetCustomAttribute<CommandAttribute>()!);
+    }
+
+    public ICommand GetCommandInstance(string commandName, IHubContext context){
         var commandType = _commands.FirstOrDefault(c => c.GetCustomAttribute<CommandAttribute>()!.Name == commandName);
         if(commandType == null){
             throw new KeyNotFoundException($"command with the name {commandName} is not found by the commandProvider");
         }
         var instance = (CommandBase)_serviceProvider.GetService(commandType);
+        instance.Intialize(context);
         return instance;
     }
 }
