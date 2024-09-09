@@ -26,7 +26,7 @@
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
-			"extensions": ["ms-dotnettools.csdevkit"]
+			"extensions": ["ms-dotnettools.csdevkit", "fernandoescolar.vscode-solution-explorer"]
 		}
 	},
 
