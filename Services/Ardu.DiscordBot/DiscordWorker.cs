@@ -1,4 +1,6 @@
 
+using System;
+using Discord;
 using Discord.WebSocket;
 
 namespace Ardu.DiscordBot;
@@ -32,23 +34,27 @@ public class DiscordWorker : BackgroundService
         base.Dispose();
     }
 
-    private async Task OnMessageRecieved(SocketMessage message)
+    private Task OnMessageRecieved(SocketMessage message)
     {
-        throw new NotImplementedException();
+        _log.LogInformation($"Message recieved from: {message.Author.GlobalName}, on Channel {message.Channel.Name}, with contents: {Environment.NewLine}{message.Content}");
+        return Task.CompletedTask;
     }
-    private async Task OnConnected()
+    private Task OnConnected()
     {
-        throw new NotImplementedException();
+        _log.LogInformation("Connected to Discord!");
+        return Task.CompletedTask;
     }
 
     private async Task OnUserJoined(SocketGuildUser user)
     {
-        throw new NotImplementedException();
+        _log.LogInformation($"user: {user.GlobalName}, has joined us!");
+        await user.SendMessageAsync("Hello there!");
     }
 
-    private async Task OnDiscconect(Exception exception)
+    private Task OnDiscconect(Exception exception)
     {
-        throw new NotImplementedException();
+        _log.LogCritical("disconnected from discord!");
+        return Task.CompletedTask;
     }
 
 }
