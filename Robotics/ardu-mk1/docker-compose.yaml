@@ -1,0 +1,23 @@
+version: '3'
+services:
+  eventbus:
+    image: emqx:latest
+    container_name: emqx-eventbus
+    ports:
+      - 1883:1883
+    networks:
+      - ardu
+  datastore:
+    image: mongo
+    container_name: mongo-datastore
+    volumes:
+      - db-data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - ardu
+networks:
+  ardu: null
+volumes:
+  db-data:
+  ardu-data:
