@@ -7,6 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{80
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ardu.DiscordBot", "Services\Ardu.DiscordBot\Ardu.DiscordBot.csproj", "{54D0622E-A302-4FC7-873C-3A5CE29E198D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Robotics", "Robotics", "{305C3230-CB80-4CBA-B4AA-8449060AE5E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ardu-mk1", "Ardu-mk1", "{33781FFA-0F92-426B-BAA3-66EC6F302323}"
+	ProjectSection(SolutionItems) = preProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "arduhostsupervisor", "Robotics\ardu-mk1\arduhostsupervisor\arduhostsupervisor.csproj", "{2E39F51C-29C7-43C9-8125-987818EC23D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +25,18 @@ Global
 		{54D0622E-A302-4FC7-873C-3A5CE29E198D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54D0622E-A302-4FC7-873C-3A5CE29E198D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54D0622E-A302-4FC7-873C-3A5CE29E198D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E39F51C-29C7-43C9-8125-987818EC23D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E39F51C-29C7-43C9-8125-987818EC23D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E39F51C-29C7-43C9-8125-987818EC23D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E39F51C-29C7-43C9-8125-987818EC23D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{33781FFA-0F92-426B-BAA3-66EC6F302323} = {305C3230-CB80-4CBA-B4AA-8449060AE5E6}
 		{54D0622E-A302-4FC7-873C-3A5CE29E198D} = {80EC575C-372F-4B72-8BD3-50EFA3AD56A3}
+		{2E39F51C-29C7-43C9-8125-987818EC23D4} = {33781FFA-0F92-426B-BAA3-66EC6F302323}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4CBB31E1-25F3-476A-B92C-8121446F55E7}
