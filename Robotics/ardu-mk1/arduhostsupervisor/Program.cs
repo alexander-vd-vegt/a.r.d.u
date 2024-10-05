@@ -28,13 +28,14 @@ app.MapPost("/", async ([FromBody] ArduComponentContainer container,
 {
     try
     {
+        var tags = new Dictionary<string, string>();
+        tags.Add("Ardu", "");
+        tags.Add("ArduRestartOnExis", container.KillOnExit.ToString());
         var param = new CreateContainerParameters()
         {
             Image = container.Image,
             Name = container.Name,
-            Labels = new Dictionary<string, string(){
-                new KeyValuePair<string, string>(key: "Ardu", value: "")
-            }
+            Labels = tags
         };
         await _dockerClient.Containers.CreateContainerAsync(param);
         return Results.Ok();
