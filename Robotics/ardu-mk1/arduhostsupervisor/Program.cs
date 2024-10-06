@@ -1,3 +1,4 @@
+using Ardu.Common;
 using arduhostsupervisor;
 using arduhostsupervisor.Models;
 using Docker.DotNet;
@@ -12,6 +13,7 @@ var app = builder.Build();
 app.MapGet("/", async ([FromServices] DockerClient _dockerClient) =>
 {
     try{
+        //todo: check if running
         var listParam = new ContainersListParameters(); 
         var runningCon =  await _dockerClient.Containers.ListContainersAsync(listParam);
         var info = runningCon
@@ -27,7 +29,7 @@ app.MapGet("/", async ([FromServices] DockerClient _dockerClient) =>
     }
 });
 
-app.MapPost("/", async ([FromBody] ArduComponentContainer container, 
+app.MapPost("/", async ([FromBody] ArduComponent container, 
 [FromServices] DockerClient _dockerClient) =>
 {
     try
