@@ -5,22 +5,26 @@ using Docker.DotNet.Models;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.AddArduHostSupervisior();
 var app = builder.Build();
 
 
 app.MapGet("/", async ([FromServices] DockerClient _dockerClient) =>
 {
-    var listParam = new ContainersListParameters(); 
-    var runningCon =  await _dockerClient.Containers.ListContainersAsync(listParam);
-    var info = runningCon
-        .Where(container => container.Labels.ContainsKey("Ardu"))
-        .Select(con => new ArduComponentContainer{
-            Name = con.Names.FirstOrDefault(),
-            Image = con.Image
-        });
-    return Results.Ok(info.AsEnumerable());
+    try{
+        var listParam = new ContainersListParameters(); 
+        var runningCon =  await _dockerClient.Containers.ListContainersAsync(listParam);
+        var info = runningCon
+            .Where(container => container.Labels.ContainsKey("Ardu"))
+            .Select(con => new ArduComponentContainer{
+                Name = con.Names.FirstOrDefault(),
+                Image = con.Image
+            });
+        return Results.Ok(info.AsEnumerable());
+    }
+    catch{
+        return Results.Problem();
+    }
 });
 
 app.MapPost("/", async ([FromBody] ArduComponentContainer container, 
@@ -29,7 +33,7 @@ app.MapPost("/", async ([FromBody] ArduComponentContainer container,
     try
     {
         var tags = new Dictionary<string, string>();
-        tags.Add("Ardu", "");
+        tags.Add("Ardu", container.Name);
         tags.Add("ArduRestartOnExis", container.KillOnExit.ToString());
         var param = new CreateContainerParameters()
         {
