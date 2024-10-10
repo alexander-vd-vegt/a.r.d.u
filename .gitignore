@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 .mono/
 Services/Ardu.DiscordBot/appsettings.Development.json
+ArduApp/appsettings.Development.json
