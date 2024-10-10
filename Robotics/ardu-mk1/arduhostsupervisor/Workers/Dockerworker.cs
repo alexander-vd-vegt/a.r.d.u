@@ -1,5 +1,7 @@
 
 using System.Diagnostics;
+using Ardu.Common;
+using Ardu.Common.Interfaces;
 using Docker.DotNet;
 using Docker.DotNet.Models;
 
@@ -9,24 +11,21 @@ public class Dockerworker(DockerClient dockerClient, ILogger<Dockerworker> logge
 {
     private readonly DockerClient _dockerClient = dockerClient;
     private readonly ILogger _log = logger;
+
+    private readonly IConfig _config;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await ContainerStartup();
     }
 
     private async Task ContainerStartup(){
-        var listParam = new ContainersListParameters(); 
-       var runningCon =  await _dockerClient.Containers.ListContainersAsync(listParam);
-       foreach(var container in runningCon)
-       {
-            _log.LogInformation($"{container.Names.First()} : {container.State} : {container.Labels} : {container.Image}");
-       }
+        
     }
 
-    private async Task StartContainer(){
+    private async Task StartContainer(ArduComponent component){
         var param = new CreateContainerParameters(){
-            Image = "",
-            Name = ""
+            Image = component.Image,
+            Name =  component.Name
         };
         await _dockerClient.Containers.CreateContainerAsync(param);
     }
