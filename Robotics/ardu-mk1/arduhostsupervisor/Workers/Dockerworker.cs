@@ -1,32 +1,62 @@
 
-using System.Diagnostics;
-using Ardu.Common;
-using Ardu.Common.Interfaces;
-using Docker.DotNet;
-using Docker.DotNet.Models;
+using Ardu.Common.Services;
+using arduhostsupervisor.Models;
+using Microsoft.Extensions.Options;
 
 namespace arduhostsupervisor.Workers;
 
-public class Dockerworker(DockerClient dockerClient, ILogger<Dockerworker> logger) : BackgroundService
+public class Dockerworker(IComponentContainerService componentService, ILogger<Dockerworker> logger,
+IOptions<SupervisorConfig> config) : BackgroundService
 {
-    private readonly DockerClient _dockerClient = dockerClient;
+    private readonly IComponentContainerService _componentService = componentService; 
     private readonly ILogger _log = logger;
 
-    private readonly IConfig _config;
+    private readonly SupervisorConfig _config = config.Value;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await ContainerStartup();
+        while(!stoppingToken.IsCancellationRequested)
+        {
+            await Task.Delay(500);
+        }
+        await ContainerShutDown();
     }
 
     private async Task ContainerStartup(){
-        
+        if(_config.RequiredComponents != null)
+        {
+            foreach(var component in _config.RequiredComponents!){
+                try
+                {
+                    await _componentService.StartComponent(component);
+                }
+                catch(Exception ex){
+                    _log.LogError(ex, $"Failed to start required container: {component.Name}");
+                }
+            }
+        }
+        else{
+            _log.LogInformation("No required containers were specified in config");
+        }
     }
 
-    private async Task StartContainer(ArduComponent component){
-        var param = new CreateContainerParameters(){
-            Image = component.Image,
-            Name =  component.Name
-        };
-        await _dockerClient.Containers.CreateContainerAsync(param);
+    private async Task ContainerShutDown(){
+        var runningContainer = await _componentService.GetComponentsWithStatus();
+        foreach(var container in runningContainer){
+            try
+            {
+                if(container.KillOnExit)
+                    await _componentService.StopComponent(container);
+            }
+            catch(Exception ex){
+                _log.LogError(ex, $"Failed to stop container on exit: {container.Name}");
+
+            }
+        }
     }
+
+    private async Task MonitorContainers(){
+        // todo write code to see if required containers are still running 
+    }
+
 }

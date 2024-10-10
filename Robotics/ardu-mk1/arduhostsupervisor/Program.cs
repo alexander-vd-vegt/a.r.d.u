@@ -1,6 +1,6 @@
 using Ardu.Common;
+using Ardu.Common.Services;
 using arduhostsupervisor;
-using arduhostsupervisor.Models;
 using Docker.DotNet;
 using Docker.DotNet.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,47 +10,41 @@ builder.AddArduHostSupervisior();
 var app = builder.Build();
 
 
-app.MapGet("/", async ([FromServices] DockerClient _dockerClient) =>
+app.MapGet("/components", async ([FromServices] IComponentContainerService _componentService) =>
 {
     try{
-        //todo: check if running
-        var listParam = new ContainersListParameters(); 
-        var runningCon =  await _dockerClient.Containers.ListContainersAsync(listParam);
-        var info = runningCon
-            .Where(container => container.Labels.ContainsKey("Ardu"))
-            .Select(con => new ArduComponentContainer{
-                Name = con.Names.FirstOrDefault(),
-                Image = con.Image
-            });
-        return Results.Ok(info.AsEnumerable());
+        var components = await _componentService.GetComponentsWithStatus();
+        return Results.Ok(components);
     }
     catch{
         return Results.Problem();
     }
 });
 
-app.MapPost("/", async ([FromBody] ArduComponent container, 
-[FromServices] DockerClient _dockerClient) =>
+app.MapPost("/components", async ([FromBody] ArduComponent container, 
+[FromServices] IComponentContainerService componentService, 
+[FromServices] ILogger<Program> log) =>
 {
     try
     {
-        var tags = new Dictionary<string, string>();
-        tags.Add("Ardu", container.Name);
-        tags.Add("ArduRestartOnExis", container.KillOnExit.ToString());
-        var param = new CreateContainerParameters()
-        {
-            Image = container.Image,
-            Name = container.Name,
-            Labels = tags
-        };
-        await _dockerClient.Containers.CreateContainerAsync(param);
+        await componentService.StartComponent(container);
         return Results.Ok();
 
     }
     catch (Exception ex)
     {
+        log.LogError(ex, $"Failed to start component from endpoint");
         return Results.BadRequest();
     }
+});
+
+app.MapGet("/docker", async ([FromServices] DockerClient _dockerClient ) =>
+{
+    var list = await _dockerClient.Containers.ListContainersAsync( new ContainersListParameters
+    {
+        All = true            
+    });
+    return list;
 });
 
 app.Run();
