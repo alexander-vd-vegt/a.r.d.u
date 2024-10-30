@@ -1,5 +1,5 @@
 FROM debian:bookworm
-
+# FROM mcr.microsoft.com/devcontainers/python:1-3.12-bookworm
 RUN apt update && apt install -y --no-install-recommends gnupg
 
 RUN echo "deb http://archive.raspberrypi.org/debian/ bookworm main" > /etc/apt/sources.list.d/raspi.list \
