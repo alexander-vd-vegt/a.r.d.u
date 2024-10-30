@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  camera:
+    image: docker.io/jackstormcrow/picamera2-container:latest
+    restart: always
+    privileged: true

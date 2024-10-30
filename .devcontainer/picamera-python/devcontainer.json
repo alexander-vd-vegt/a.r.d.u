@@ -1,12 +1,14 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
-	"name": "dotnet-dapr",
+	"name": "picamera2-privileged",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
+	"dockerComposeFile": "docker-compose.yaml",
+    "service": "camera",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"features": {
-		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-		"ghcr.io/dapr/cli/dapr-cli:0": {}
+		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+		// "ghcr.io/dapr/cli/dapr-cli:0": {}
 	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
@@ -26,10 +28,13 @@
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
-			"extensions": ["ms-dotnettools.csdevkit", "fernandoescolar.vscode-solution-explorer"]
+			"extensions": ["ms-python.python"]
 		}
 	},
 
+    "privileged": true,
+    // "mounts": [{ "source": "/run/udev", "target": "/run/udev", "type": "volume" }],
+
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"remoteUser": "root"
 }
