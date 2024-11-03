@@ -22,13 +22,17 @@ public class ComponentDockerContainerService : IComponentContainerService
     public async Task StartComponent(ArduComponent component){
         try
         {
-            //todo: check if image is present
-            // if not pull 
-            var pullState = await this.PullImage(component.Image);
-            // todo: wait till pull completes
+            if(await ComponentExcists(component) == false)
+            {
+                var pullState = this.PullImage(component.Image);
+                await pullState.WaitAsync(CancellationToken.None);
+                while(!pullState.IsCompleted)
+                {
+                    _log.LogInformation($"busy pulling: {component.Image}");
+                    await Task.Delay(1000);
+                }
+                _log.LogInformation($"done pulling: {component.Image}");
 
-
-            if(await ComponentExcists(component) == false){
                 var param = new CreateContainerParameters(){
                     Image = component.Image,
                     Name =  component.Name,
@@ -42,8 +46,7 @@ public class ComponentDockerContainerService : IComponentContainerService
                 await _dockerClient.Containers.StartContainerAsync(response.ID,null);   
             }
             else{
-                _log.LogCritical($"Instance of compontent {component.Name} with image {component.Image} already present. Skipping Component");
-                //todo: what now?
+                _log.LogWarning($"Instance of compontent {component.Name} with image {component.Image} already present. Skipping Component");
             } 
         } 
         catch(Exception ex)
