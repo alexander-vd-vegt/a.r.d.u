@@ -7,8 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddArduHostSupervisior();
+
+//Swagger services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
+//swagger
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapGet("/components", async ([FromServices] IComponentContainerService _componentService) =>
 {
@@ -37,14 +45,4 @@ app.MapPost("/components", async ([FromBody] ArduComponent container,
         return Results.BadRequest();
     }
 });
-
-app.MapGet("/docker", async ([FromServices] DockerClient _dockerClient ) =>
-{
-    var list = await _dockerClient.Containers.ListContainersAsync( new ContainersListParameters
-    {
-        All = true            
-    });
-    return list;
-});
-
 app.Run();

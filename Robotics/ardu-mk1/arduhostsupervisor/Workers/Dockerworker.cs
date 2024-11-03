@@ -1,6 +1,7 @@
 
 using Ardu.Common.Services;
 using arduhostsupervisor.Models;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace arduhostsupervisor.Workers;
@@ -14,12 +15,12 @@ IOptions<SupervisorConfig> config) : BackgroundService
     private readonly SupervisorConfig _config = config.Value;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        stoppingToken.Register(async () => await ContainerShutDown());
         await ContainerStartup();
         while(!stoppingToken.IsCancellationRequested)
         {
             await Task.Delay(500);
         }
-        await ContainerShutDown();
     }
 
     private async Task ContainerStartup(){
