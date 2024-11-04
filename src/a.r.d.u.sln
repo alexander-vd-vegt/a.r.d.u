@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{80EC575C-372F-4B72-8BD3-50EFA3AD56A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Robotics", "Robotics", "{E7D1789D-AE2E-4A1E-A371-E071DB89D290}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7D9DB09C-D934-4288-BFAB-9715813E2FBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardu.Common", "Ardu.Common\Ardu.Common.csproj", "{D2BDF62F-8C0F-4A56-9AB8-9BAB9D44D7AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "arduhostsupervisor", "arduhostsupervisor\arduhostsupervisor.csproj", "{C16A7088-254D-4364-AD62-A3D340F00BA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2BDF62F-8C0F-4A56-9AB8-9BAB9D44D7AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2BDF62F-8C0F-4A56-9AB8-9BAB9D44D7AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2BDF62F-8C0F-4A56-9AB8-9BAB9D44D7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2BDF62F-8C0F-4A56-9AB8-9BAB9D44D7AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C16A7088-254D-4364-AD62-A3D340F00BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C16A7088-254D-4364-AD62-A3D340F00BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C16A7088-254D-4364-AD62-A3D340F00BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C16A7088-254D-4364-AD62-A3D340F00BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D2BDF62F-8C0F-4A56-9AB8-9BAB9D44D7AD} = {7D9DB09C-D934-4288-BFAB-9715813E2FBE}
+		{C16A7088-254D-4364-AD62-A3D340F00BA7} = {E7D1789D-AE2E-4A1E-A371-E071DB89D290}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4CBB31E1-25F3-476A-B92C-8121446F55E7}
+	EndGlobalSection
+EndGlobal
