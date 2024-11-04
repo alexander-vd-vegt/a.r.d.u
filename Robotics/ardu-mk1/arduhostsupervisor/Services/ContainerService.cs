@@ -10,13 +10,11 @@ namespace arduhostsupervisor.Services;
 public class ComponentDockerContainerService : IComponentContainerService
 {
     private readonly DockerClient _dockerClient;
-    private Dictionary<string, string> _containerComponentIndex;
     private ILogger _log;
 
     public ComponentDockerContainerService(DockerClient dockerClient, ILogger<ComponentDockerContainerService> logger)
     {
         _dockerClient = dockerClient;
-        _containerComponentIndex = new Dictionary<string, string>();
         _log = logger;
     }
     public async Task StartComponent(ArduComponent component){
@@ -42,7 +40,6 @@ public class ComponentDockerContainerService : IComponentContainerService
                 param.HostConfig = component.GetHostConfig();    
                 param.ExposedPorts = component.GetExposedPorts();
                 var response = await _dockerClient.Containers.CreateContainerAsync(param);
-                _containerComponentIndex.Add(component.Name, response.ID);
                 await _dockerClient.Containers.StartContainerAsync(response.ID,null);   
             }
             else{
@@ -56,13 +53,17 @@ public class ComponentDockerContainerService : IComponentContainerService
     }
     
     public async Task StopComponent (ArduComponent arduComponent){
-        if(_containerComponentIndex.ContainsKey(arduComponent.Name))
+        try
         {
+            _log.LogInformation($"shutting down and removing container: {arduComponent.Name}");
             var param = new ContainerStopParameters();
             await _dockerClient.Containers.StopContainerAsync(arduComponent.Name ,param);
+            await _dockerClient.Containers.RemoveContainerAsync(arduComponent.Name, new ContainerRemoveParameters());
         }
-        else{
-            throw new Exception("to do fix this");
+        catch(Exception ex)
+        {
+            _log.LogError(ex,$"Unexpected exception on shutting down and removing container: {arduComponent.Name}");
+            throw ex;
         }
     }
 
@@ -74,7 +75,7 @@ public class ComponentDockerContainerService : IComponentContainerService
         
         var components = list.Where(c => c.Labels.ContainsKey("Ardu"))
             .Select(c => new ArduComponentStatus{
-                    Name = c.Names.First(),
+                    Name = c.Names.First().TrimStart('/'),
                     Image = c.Image,
                     Status = c.Status,
                     KillOnExit = Boolean.Parse(c.Labels["ArduRestartOnExit"]),
