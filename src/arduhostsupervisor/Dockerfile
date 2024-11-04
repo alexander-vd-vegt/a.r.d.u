@@ -8,8 +8,9 @@ USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG configuration=Release
 WORKDIR /src
-COPY "arduhostsupervisor.csproj" "./src"
-RUN dotnet restore /src/arduhostsupervisor.csproj
+COPY "Ardu.Common/Ardu.Common.csproj" "Ardu.Common/"
+COPY "arduhostsupervisor/arduhostsupervisor.csproj" "arduhostsupervisor/"
+RUN dotnet restore "arduhostsupervisor/arduhostsupervisor.csproj" 
 COPY . .
 WORKDIR "/src/arduhostsupervisor"
 RUN dotnet build "arduhostsupervisor.csproj" -c $configuration -o /app/build
