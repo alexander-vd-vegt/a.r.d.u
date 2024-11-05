@@ -2,8 +2,10 @@ using System;
 using Ardu.Common;
 using Ardu.Common.Services;
 using arduhostsupervisor.Extensions;
+using arduhostsupervisor.Models;
 using Docker.DotNet;
 using Docker.DotNet.Models;
+using Microsoft.Extensions.Options;
 
 namespace arduhostsupervisor.Services;
 
@@ -11,11 +13,15 @@ public class ComponentDockerContainerService : IComponentContainerService
 {
     private readonly DockerClient _dockerClient;
     private ILogger _log;
+    private IOptions<SupervisorConfig> _config;
 
-    public ComponentDockerContainerService(DockerClient dockerClient, ILogger<ComponentDockerContainerService> logger)
+    public ComponentDockerContainerService(DockerClient dockerClient, 
+        ILogger<ComponentDockerContainerService> logger,
+        IOptions<SupervisorConfig> config)
     {
         _dockerClient = dockerClient;
         _log = logger;
+        _config = config;
     }
     public async Task StartComponent(ArduComponent component){
         try
@@ -30,12 +36,13 @@ public class ComponentDockerContainerService : IComponentContainerService
                     await Task.Delay(1000);
                 }
                 _log.LogInformation($"done pulling: {component.Image}");
-
+                var envVars = new List<string>();
                 var param = new CreateContainerParameters(){
                     Image = component.Image,
                     Name =  component.Name,
                     Labels = component.AddArduComponentLabels(),
-                    Hostname = component.Name
+                    Hostname = component.Name,
+                    Env = CompileEnvVars()
                 };
                 param.HostConfig = component.GetHostConfig();    
                 param.ExposedPorts = component.GetExposedPorts();
@@ -119,6 +126,12 @@ public class ComponentDockerContainerService : IComponentContainerService
         {
             return false;
         }
+    }
+
+    private List<string> CompileEnvVars(){
+        return _config.Value.Services
+            .Select( s => $"{s.Key}={s.Value}")
+            .ToList();
     }
 
 }

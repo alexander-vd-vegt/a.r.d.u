@@ -7,4 +7,5 @@ namespace arduhostsupervisor.Models;
 public class SupervisorConfig : IConfig
 {
     public IEnumerable<ArduComponent> RequiredComponents { get; set; }
+    public Dictionary<string, string> Services { get; set;}
 }
