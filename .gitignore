@@ -401,3 +401,4 @@ Services/Ardu.DiscordBot/appsettings.Development.json
 **/*.Development.json
 **/*.development.json
 src/arduhostsupervisor/appsettings.Development.json
+src/arduhostsupervisor/arduconfig.json
