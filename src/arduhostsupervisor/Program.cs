@@ -82,7 +82,7 @@ app.MapPut("/components", async ([FromBody] ArduComponent container,
     }
 });
 
-app.MapGet("/config", async ([FromServices] IOptions<SupervisorConfig> config) =>
+app.MapGet("/config", ([FromServices] IOptions<SupervisorConfig> config) =>
 {
     try{
         return Results.Ok(config.Value);
