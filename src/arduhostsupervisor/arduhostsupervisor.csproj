@@ -12,4 +12,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Ardu.Common\Ardu.Common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="arduconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
