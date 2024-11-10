@@ -19,7 +19,7 @@ IOptions<SupervisorConfig> config) : BackgroundService
         await ContainerStartup();
         while(!stoppingToken.IsCancellationRequested)
         {
-            await Task.Delay(500);
+            await this.MonitorContainers();
         }
     }
 
@@ -57,7 +57,8 @@ IOptions<SupervisorConfig> config) : BackgroundService
     }
 
     private async Task MonitorContainers(){
-        // todo write code to see if required containers are still running 
+        // todo: write code to see if required containers are still running 
+        await Task.Delay(500);
     }
 
 }
