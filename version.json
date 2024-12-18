@@ -5,6 +5,7 @@
     "^refs/heads/master$",
     "^refs/heads/v\\d+(?:\\.\\d+)?$"
   ],
+  "pathFilters": ["./src"],
   "cloudBuild": {
     "buildNumber": {
       "enabled": true
