@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "arduhostsupervisor", "arduh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ardu.DiscordBot", "Ardu.DiscordBot\Ardu.DiscordBot.csproj", "{22568BA1-0819-4343-9C1A-523A9B849C5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mk1-iic-controller", "Robotics\mk1-iic-controller\mk1-iic-controller.csproj", "{64FA86A0-F3D9-498D-8939-820B37098C9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{22568BA1-0819-4343-9C1A-523A9B849C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22568BA1-0819-4343-9C1A-523A9B849C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22568BA1-0819-4343-9C1A-523A9B849C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64FA86A0-F3D9-498D-8939-820B37098C9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FA86A0-F3D9-498D-8939-820B37098C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FA86A0-F3D9-498D-8939-820B37098C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FA86A0-F3D9-498D-8939-820B37098C9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{D2BDF62F-8C0F-4A56-9AB8-9BAB9D44D7AD} = {7D9DB09C-D934-4288-BFAB-9715813E2FBE}
 		{C16A7088-254D-4364-AD62-A3D340F00BA7} = {E7D1789D-AE2E-4A1E-A371-E071DB89D290}
 		{22568BA1-0819-4343-9C1A-523A9B849C5E} = {80EC575C-372F-4B72-8BD3-50EFA3AD56A3}
+		{64FA86A0-F3D9-498D-8939-820B37098C9B} = {E7D1789D-AE2E-4A1E-A371-E071DB89D290}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4CBB31E1-25F3-476A-B92C-8121446F55E7}

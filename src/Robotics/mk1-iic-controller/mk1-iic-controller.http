@@ -1,0 +1,6 @@
+@mk1_iic_controller_HostAddress = http://localhost:5166
+
+GET {{mk1_iic_controller_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
